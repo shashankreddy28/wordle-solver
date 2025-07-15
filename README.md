@@ -1,7 +1,7 @@
 # Wordle Solver Assistant
 
 A Chrome extension to help you solve Wordle puzzles by suggesting the best next guess based on your previous attempts.
-Still missing the feature to automate teh board information.
+Still missing the feature to automate the board information.
 ---
 
 ## Features
