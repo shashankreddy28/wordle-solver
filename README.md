@@ -1,7 +1,7 @@
 # Wordle Solver Assistant
 
 A Chrome extension to help you solve Wordle puzzles by suggesting the best next guess based on your previous attempts.
-
+Still missing the feature to automate the board information.
 ---
 
 ## Features
@@ -28,7 +28,7 @@ A Chrome extension to help you solve Wordle puzzles by suggesting the best next 
 
 1. Play Wordle on [nytimes.com/games/wordle](https://www.nytimes.com/games/wordle/).
 2. Click the Wordle Solver Assistant extension icon.
-3. Click **Get Last Guess & Feedback** to auto-fill your last guess and feedback, or enter them manually (G for Green, Y for Yellow, B for Black).
+3. Click **Reset Game** to auto-fill your last guess and feedback, or enter them manually (G for Green, Y for Yellow, B for Black).
 4. Click **Suggest Next Word** to see the top suggestions.
 
 ---
@@ -49,12 +49,6 @@ A Chrome extension to help you solve Wordle puzzles by suggesting the best next 
 2. **Word Filtering**: The solver filters the word list based on your input.
 3. **Suggestions Display**: The popup shows the top suggestions.
 4. **Automated Feedback (Planned)**: The extension can fetch your last guess and feedback from the Wordle page.
-
----
-
-## Contributing
-
-Pull requests and suggestions are welcome! If you have ideas for improvements or new features, feel free to open an issue or submit a PR.
 
 ---
 
