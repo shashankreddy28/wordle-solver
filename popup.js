@@ -82,3 +82,28 @@ if (!document.getElementById('attempts')) {
     document.querySelector('.container').appendChild(attemptsDiv);
     renderAttempts();
 }
+
+// Add a button to import all attempts from the Wordle page
+if (!document.getElementById('importAllBtn')) {
+    const importBtn = document.createElement('button');
+    importBtn.id = 'importAllBtn';
+    importBtn.textContent = 'Import All Attempts';
+    importBtn.style.marginTop = '10px';
+    document.querySelector('.container').appendChild(importBtn);
+    importBtn.addEventListener('click', () => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'getAllAttempts' }, (response) => {
+                if (response && response.attempts) {
+                    resetAttempts();
+                    response.attempts.forEach(({ guess, feedback }) => addAttempt(guess, feedback));
+                    const filtered = filterWordsWithAttempts(WORD_LIST, previousAttempts);
+                    wordList = filtered;
+                    document.getElementById('result').textContent = filtered.slice(0, 10).join(', ') || 'No suggestions left.';
+                    renderAttempts();
+                } else if (response && response.error) {
+                    document.getElementById('result').textContent = response.error;
+                }
+            });
+        });
+    });
+}
