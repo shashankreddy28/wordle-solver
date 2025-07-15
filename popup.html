@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wordle Solver</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Wordle Solver Assistant</h1>
+        <button id="getFeedbackBtn">Get Last Guess & Feedback</button>
+        <hr>
+        <input type="text" id="guess" placeholder="Enter guess (e.g., crane)">
+        <input type="text" id="feedback" placeholder="Enter feedback (G, Y, B)">
+        <button id="solveBtn">Suggest Next Word</button>
+        <div id="result"></div>
+    </div>
+    <script src="wordlist.js"></script>
+    <script src="solver.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
