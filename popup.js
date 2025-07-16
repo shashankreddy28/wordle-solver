@@ -38,26 +38,7 @@ document.getElementById('solveBtn').addEventListener('click', () => {
     renderAttempts();
 });
 
-document.getElementById('getFeedbackBtn').addEventListener('click', () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        chrome.tabs.sendMessage(tabs[0].id, { type: "getGuessFeedback" }, (response) => {
-            if (response && response.row) {
-                const feedbackString = response.row.map(tile => {
-                    if (tile.feedback === 'correct') return 'G';
-                    if (tile.feedback === 'present') return 'Y';
-                    if (tile.feedback === 'absent') return 'B';
-                    return '';
-                }).join('');
-                document.getElementById('feedback').value = feedbackString;
-                document.getElementById('guess').value = response.row.map(tile => tile.letter).join('');
-            } else if (response && response.error) {
-                document.getElementById('result').textContent = response.error;
-            } else {
-                document.getElementById('result').textContent = 'Could not get feedback. Make sure you are on the Wordle page and have made a guess.';
-            }
-        });
-    });
-});
+
 
 // Add a Reset button to clear attempts and reset the word list
 if (!document.getElementById('resetBtn')) {
@@ -91,19 +72,22 @@ if (!document.getElementById('importAllBtn')) {
     importBtn.style.marginTop = '10px';
     document.querySelector('.container').appendChild(importBtn);
     importBtn.addEventListener('click', () => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.tabs.sendMessage(tabs[0].id, { type: 'getAllAttempts' }, (response) => {
-                if (response && response.attempts) {
-                    resetAttempts();
-                    response.attempts.forEach(({ guess, feedback }) => addAttempt(guess, feedback));
-                    const filtered = filterWordsWithAttempts(WORD_LIST, previousAttempts);
-                    wordList = filtered;
-                    document.getElementById('result').textContent = filtered.slice(0, 10).join(', ') || 'No suggestions left.';
-                    renderAttempts();
-                } else if (response && response.error) {
-                    document.getElementById('result').textContent = response.error;
-                }
-            });
+        chrome.runtime.sendMessage({ type: 'getAllAttempts' }, (response) => {
+            if (chrome.runtime.lastError) {
+                document.getElementById('result').textContent = `Error: ${chrome.runtime.lastError.message}`;
+                return;
+            }
+            if (response && response.attempts) {
+                resetAttempts();
+                response.attempts.forEach(({ guess, feedback }) => addAttempt(guess, feedback));
+                const filtered = filterWordsWithAttempts(WORD_LIST, previousAttempts);
+                wordList = filtered;
+                document.getElementById('result').textContent = filtered.slice(0, 10).join(', ') || 'No suggestions left.';
+                renderAttempts();
+            } else if (response && response.error) {
+                document.getElementById('result').textContent = response.error;
+            }
         });
     });
 }
+

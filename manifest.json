@@ -3,21 +3,14 @@
     "name": "Wordle Solver Assistant",
     "version": "1.0",
     "description": "Suggests the best next guess in Wordle.",
-    "permissions": ["scripting", "activeTab"],
+    "permissions": ["scripting", "activeTab", "tabs"],
+    "background": {
+        "service_worker": "background.js"
+    },
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
         "16": "icon.png"
       }
-    },
-    "content_scripts": [
-      {
-        "matches": [
-          "https://www.nytimes.com/games/wordle/*",
-          "*://*/*wordle*"
-        ],
-        "js": ["content.js"]
-      }
-    ]
+    }
   }
-  
